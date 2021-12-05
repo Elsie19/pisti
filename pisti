@@ -12,6 +12,7 @@ case "${1}" in
         shift
         directory="$1"
         ln -s "$target" "$directory"
+        echo "Symlinked $directory to $target"
         exit
     ;;
     --delete)

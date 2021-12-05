@@ -2,7 +2,7 @@
 set -eu
 
 function help() {
-    echo "$0 [-h] [--target symlink_target directory_to_symlink ]"
+    echo "$(basename $0) [-h] [--target symlink_target directory_to_symlink ]"
 }
 
 case "${1}" in

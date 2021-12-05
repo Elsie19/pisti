@@ -1,0 +1,34 @@
+#!/bin/bash
+set -eu
+
+function help() {
+    echo "$0 [-h] [--target symlink_target directory_to_symlink ]"
+}
+
+case "${1}" in
+    --target)
+        shift
+        target="$1"
+        shift
+        directory="$1"
+        echo "target is $target and directory is $directory"
+        ln -s "$target" "$directory"
+        exit
+    ;;
+    --delete)
+        shift
+        target="$1"
+        unlink "$target"
+        exit
+    ;;
+    -h)
+        help
+        exit
+    ;;
+    *)
+        shift
+        echo "Invalid argument $2"
+        help
+        exit 1
+    ;;
+esac

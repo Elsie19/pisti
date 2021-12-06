@@ -33,7 +33,10 @@ case "${1}" in
     --delete)
         shift
         target="$1"
-        unlink "$target"
+        unlink "$target" || {
+            echo "    * Failed to delete target $target"
+            exit 1
+        }
         echo "Deleted $target"
         exit
     ;;

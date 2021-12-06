@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -eu pipefail
 
 function help() {
     echo "$(basename "$0") [ -h ] [ --target symlink_target directory_to_symlink ] | [ --delete symlink_target ]"

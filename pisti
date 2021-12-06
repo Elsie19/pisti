@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu pipefail
+set -euo pipefail
 
 function help() {
     echo "$(basename "$0") [ -h ] [ --target symlink_target directory_to_symlink ] | [ --delete symlink_target ]"
@@ -34,6 +34,7 @@ case "${1}" in
         shift
         target="$1"
         unlink "$target"
+        echo "Deleted $target"
         exit
     ;;
     --update)
@@ -45,8 +46,7 @@ case "${1}" in
         exit
     ;;
     *)
-        shift
-        echo "Invalid argument $2"
+        echo "Invalid argument $1"
         help
         exit 1
     ;;

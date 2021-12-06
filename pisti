@@ -2,16 +2,31 @@
 set -eu
 
 function help() {
-    echo "$(basename $0) [-h] [--target symlink_target directory_to_symlink ]"
+    echo "$(basename "$0") [ -h ] [ --target symlink_target directory_to_symlink ] | [ --delete symlink_target ]"
 }
 
 case "${1}" in
     --target)
         shift
         target="$1"
+        # check if ending of $target has a /
+        if [[ "$target" == */ ]]; then
+            # if so, check that the target isn't /, so we don't chop it off accidentily
+            if ! [[ "$target" == "/" ]]; then
+                # Chop off last character
+                target="${target%?}"
+            fi
+        fi
         shift
         directory="$1"
-        ln -s "$target" "$directory"
+        # detect if files from $directory exist in $target
+        for i in $(find "$directory" -type f -printf "%P\n"); do
+            if [[ -f "${target}/${i}" ]]; then
+                echo "${target}/${i} already exists"
+                exit 1
+            fi
+        done
+        ln -s "$directory" "$target"
         echo "Symlinked $directory to $target"
         exit
     ;;
@@ -19,6 +34,10 @@ case "${1}" in
         shift
         target="$1"
         unlink "$target"
+        exit
+    ;;
+    --update)
+        shift
         exit
     ;;
     -h)

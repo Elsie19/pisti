@@ -22,7 +22,7 @@ case "${1}" in
         # detect if files from $directory exist in $target
         for i in $(find "$directory" -type f -printf "%P\n"); do
             if [[ -f "${target}/${i}" ]]; then
-                echo "${target}/${i} already exists"
+                echo "    * ${target}/${i} already exists"
                 exit 1
             fi
         done
